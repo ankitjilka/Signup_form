@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+    node-app:
+        container_name: signup_form
+        build: .
+        #environment:
+         #   MONGODB_URI: mongodb://mongo/mydb     
+        ports: 
+            - "3200:3000"
+        depends_on:
+            - mongo    
+        networks:
+            - example-net
+        
+
+
+    mongo:
+        container_name: signup_form_mongo
+        image: mongo
+        ports:
+            - "27018:27017"
+        networks:
+            - example-net           
+
+    nginx: 
+        container_name: signup_form_nginx
+        image: nginx
+        ports: 
+            - "80:80"
+        depends_on:
+            -  node-app
+        networks:
+            - example-net    
+networks:
+  example-net:
